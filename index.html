@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ICFES Platform</title>
-    <script src="https://Bernardo-Castilho.github.io/dragdroptouch/DragDropTouch.js"></script>
+    <title>ICFES Platform - Tap & Place</title>
     <style>
         :root {
             --primary: #2c3e50;
@@ -19,24 +18,22 @@
         * { 
             box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent; 
-            touch-action: manipulation; 
         }
 
         body {
             font-family: 'Arial Rounded MT Bold', sans-serif;
             background-color: var(--bg);
             margin: 0;
-            padding: 0;
             display: flex;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* --- BOTÓN HAMBURGUESA FLOTANTE --- */
+        /* --- MENÚ HAMBURGUESA --- */
         #menu-btn {
             position: fixed; top: 10px; left: 10px; z-index: 1002;
             font-size: 1.3rem; cursor: pointer; background: var(--bg);
-            border: none; color: var(--primary); width: 38px; height: 38px;
+            border: none; color: var(--primary); width: 40px; height: 40px;
             border-radius: 8px; box-shadow: 2px 2px 5px #b8b9be, -2px -2px 5px #ffffff;
             display: flex; align-items: center; justify-content: center;
         }
@@ -49,9 +46,9 @@
             padding: 60px 15px 20px 15px; box-shadow: 5px 0 15px rgba(0,0,0,0.3);
         }
         .sidebar.active { left: 0; }
-        .sidebar h2 { font-size: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin: 0;}
+        .sidebar h2 { font-size: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
         .sidebar ul { list-style: none; padding: 0; margin-top: 15px;}
-        .sidebar li { padding: 10px; margin-bottom: 8px; background: rgba(255,255,255,0.05); border-radius: 8px; font-size: 0.85rem; cursor: pointer;}
+        .sidebar li { padding: 12px; margin-bottom: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 0.85rem; cursor: pointer;}
         .sidebar li.active-topic { background: var(--accent); }
 
         /* --- MAIN CONTENT --- */
@@ -63,68 +60,71 @@
 
         .header-container {
             display: flex; align-items: center; justify-content: space-between;
-            width: 100%; max-width: 600px; margin-bottom: 15px; gap: 5px;
+            width: 100%; max-width: 600px; margin-bottom: 15px;
         }
-        h1 { font-size: 1rem; color: var(--primary); text-transform: uppercase; margin: 0; text-align: center; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+        h1 { font-size: 1rem; color: var(--primary); text-transform: uppercase; margin: 0; text-align: center; flex: 1; }
 
         .nav-btn {
-            background: var(--bg); border: none; width: 32px; height: 32px; border-radius: 50%;
-            box-shadow: 2px 2px 4px #b8b9be, -2px -2px 4px #ffffff; color: var(--primary);
-            display: flex; align-items: center; justify-content: center; font-size: 0.9rem; cursor: pointer;
+            background: var(--bg); border: none; width: 35px; height: 35px; border-radius: 50%;
+            box-shadow: 2px 2px 5px #b8b9be, -2px -2px 5px #ffffff; color: var(--primary);
+            display: flex; align-items: center; justify-content: center; font-size: 1rem;
         }
-        .nav-btn:disabled { opacity: 0.2; cursor: not-allowed; box-shadow: none;}
-        .nav-btn:active:not(:disabled) { box-shadow: inset 1px 1px 3px #b8b9be;}
+        .nav-btn:disabled { opacity: 0.2; }
 
-        /* --- ÁREA DE JUEGO COMPACTA (2 COLUMNAS) --- */
+        /* --- BANCO DE PALABRAS --- */
         .options-container {
-            display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
-            padding: 12px; background: var(--bg); border-radius: 12px;
+            display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+            padding: 12px; background: var(--bg); border-radius: 15px;
             box-shadow: 4px 4px 8px #b8b9be, -4px -4px 8px #ffffff;
             width: 100%; max-width: 600px; margin-bottom: 20px; min-height: 50px;
         }
 
         .option {
-            padding: 6px 10px; min-width: 70px; height: 32px; background: var(--accent); color: white;
-            border-radius: 6px; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 0.75rem; cursor: grab;
-            border-bottom: 3px solid var(--accent-dark); box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 8px 12px; min-width: 80px; height: 35px; background: var(--accent); color: white;
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 0.75rem; cursor: pointer;
+            border-bottom: 3px solid var(--accent-dark); box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+            transition: 0.2s;
         }
 
+        /* Estado Seleccionado */
+        .option.selected {
+            background: #f1c40f;
+            border-bottom-color: #f39c12;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+        }
+
+        /* --- CUESTIONARIO (2 COLUMNAS) --- */
         .quiz-container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 10px; }
 
         .question-card {
-            background: var(--bg); padding: 10px; border-radius: 10px;
+            background: var(--bg); padding: 12px; border-radius: 12px;
             box-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #ffffff;
-            display: grid; 
-            grid-template-columns: 1fr 70px; /* Columna fija pequeña para la respuesta */
-            align-items: center; 
-            gap: 10px;
+            display: grid; grid-template-columns: 1fr 80px;
+            align-items: center; gap: 10px;
         }
 
-        .question-text { font-size: 0.8rem; color: #444; line-height: 1.2; padding-right: 5px;}
+        .question-text { font-size: 0.85rem; color: #444; line-height: 1.2; }
 
         .drop-zone {
-            width: 70px; height: 35px; border-radius: 6px; background: var(--bg);
-            box-shadow: inset 2px 2px 4px #b8b9be, inset -2px -2px 4px #ffffff;
+            width: 80px; height: 40px; border-radius: 8px; background: var(--bg);
+            box-shadow: inset 3px 3px 6px #b8b9be, inset -3px -3px 6px #ffffff;
             display: flex; align-items: center; justify-content: center;
-            overflow: hidden; /* Para que el texto largo de la opción no rompa el diseño */
-        }
-        .drop-zone .option { 
-            width: 100%; height: 100%; border-bottom: 0; box-shadow: none; 
-            font-size: 0.7rem; /* Texto más pequeño dentro del recuadro */
-            padding: 2px;
-            border-radius: 4px;
+            cursor: pointer; position: relative;
         }
 
+        .drop-zone .option { width: 100%; height: 100%; border-bottom: 0; font-size: 0.7rem; padding: 2px; }
+
+        /* Colores Feedback */
         .is-correct .option { background: var(--success) !important; }
         .is-incorrect .option { background: var(--error) !important; }
 
         #verify-btn {
-            margin: 20px 0 30px 0; padding: 10px 30px; background: var(--primary);
+            margin: 25px 0 40px 0; padding: 12px 40px; background: var(--primary);
             color: white; border: none; border-bottom: 4px solid #1a252f;
-            border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer;
+            border-radius: 10px; font-weight: bold; font-size: 1rem; cursor: pointer;
         }
-        #verify-btn:active { transform: translateY(2px); border-bottom-width: 2px;}
 
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
         .overlay.active { display: block; }
@@ -188,7 +188,7 @@
         ];
 
         let currentIdx = 0;
-        let draggedItem = null;
+        let selectedOption = null;
 
         const bin = document.getElementById('options-bin');
         const quiz = document.getElementById('quiz-container');
@@ -199,6 +199,7 @@
 
         function loadTopic(idx) {
             currentIdx = idx;
+            selectedOption = null;
             const data = DATA[currentIdx];
             title.innerText = data.title;
             bin.innerHTML = "";
@@ -207,28 +208,51 @@
             data.options.forEach(opt => {
                 const div = document.createElement('div');
                 div.className = "option";
-                div.draggable = true;
                 div.innerText = opt.text;
                 div.dataset.ans = opt.id;
-                div.addEventListener('dragstart', (e) => { draggedItem = div; });
+                div.onclick = (e) => {
+                    e.stopPropagation();
+                    // Si ya estaba seleccionado, lo deseleccionamos
+                    if (selectedOption === div) {
+                        div.classList.remove('selected');
+                        selectedOption = null;
+                    } else {
+                        // Limpiar selección previa y seleccionar el nuevo
+                        if (selectedOption) selectedOption.classList.remove('selected');
+                        div.classList.add('selected');
+                        selectedOption = div;
+                    }
+                };
                 bin.appendChild(div);
             });
 
             data.questions.forEach(item => {
                 const card = document.createElement('div');
                 card.className = "question-card";
-                card.innerHTML = `<span class="question-text">${item.q}</span><div class="drop-zone" data-expected="${item.ans}"></div>`;
-                quiz.appendChild(card);
-            });
+                const zone = document.createElement('div');
+                zone.className = "drop-zone";
+                zone.dataset.expected = item.ans;
+                
+                zone.onclick = () => {
+                    if (selectedOption) {
+                        // Si el cuadro ya tiene una palabra, la devolvemos al banco
+                        if (zone.children.length > 0) {
+                            bin.appendChild(zone.children[0]);
+                        }
+                        // Movemos la seleccionada al cuadro
+                        zone.appendChild(selectedOption);
+                        selectedOption.classList.remove('selected');
+                        selectedOption = null;
+                        zone.classList.remove('is-correct', 'is-incorrect');
+                    } else if (zone.children.length > 0) {
+                        // Si no hay nada seleccionado pero tocamos un cuadro lleno, devolvemos la palabra
+                        bin.appendChild(zone.children[0]);
+                    }
+                };
 
-            document.querySelectorAll('.drop-zone').forEach(zone => {
-                zone.addEventListener('dragover', e => e.preventDefault());
-                zone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    if (zone.children.length > 0) bin.appendChild(zone.children[0]);
-                    zone.appendChild(draggedItem);
-                    zone.classList.remove('is-correct', 'is-incorrect');
-                });
+                card.innerHTML = `<span class="question-text">${item.q}</span>`;
+                card.appendChild(zone);
+                quiz.appendChild(card);
             });
             
             updateSidebar();
