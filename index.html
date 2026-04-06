@@ -38,12 +38,14 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- SIDEBAR --- */
+        /* --- SIDEBAR CORREGIDA CON SCROLL --- */
         .sidebar {
             position: fixed; left: calc(-1 * var(--sidebar-w)); top: 0;
             width: var(--sidebar-w); height: 100%; background: var(--primary);
             color: white; transition: 0.3s ease; z-index: 1001;
             padding: 60px 15px 20px 15px; box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+            /* ESTO ACTIVA EL SCROLL VERTICAL */
+            overflow-y: auto; 
         }
         .sidebar.active { left: 0; }
         .sidebar h2 { font-size: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
@@ -94,7 +96,7 @@
             box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
         }
 
-        /* --- CUESTIONARIO (2 COLUMNAS) --- */
+        /* --- CUESTIONARIO --- */
         .quiz-container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 10px; }
 
         .question-card {
@@ -115,7 +117,6 @@
 
         .drop-zone .option { width: 100%; height: 100%; border-bottom: 0; font-size: 0.7rem; padding: 2px; }
 
-        /* Colores Feedback */
         .is-correct .option { background: var(--success) !important; }
         .is-incorrect .option { background: var(--error) !important; }
 
