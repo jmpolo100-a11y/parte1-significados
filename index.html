@@ -38,13 +38,12 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- SIDEBAR CORREGIDA CON SCROLL --- */
+        /* --- SIDEBAR CON SCROLL --- */
         .sidebar {
             position: fixed; left: calc(-1 * var(--sidebar-w)); top: 0;
             width: var(--sidebar-w); height: 100%; background: var(--primary);
             color: white; transition: 0.3s ease; z-index: 1001;
             padding: 60px 15px 20px 15px; box-shadow: 5px 0 15px rgba(0,0,0,0.3);
-            /* ESTO ACTIVA EL SCROLL VERTICAL */
             overflow-y: auto; 
         }
         .sidebar.active { left: 0; }
@@ -214,7 +213,7 @@
                     { q: "2. To cut something with an axe or a sharp knife.", ans: "C" },
                     { q: "3. To cook meat, fish, etc. under direct heat.", ans: "H" },
                     { q: "4. To mix things together.", ans: "F" },
-                    { q: "5. To make water or another liquid so hot that it stars to steam.", ans: "A" }
+                    { q: "5. To make water or another liquid so hot that it starts to steam.", ans: "A" }
                 ]
             },
             {
@@ -391,6 +390,38 @@
                     { q: "82. We use this in bed when we are cold.", ans: "B" },
                     { q: "83. People can look at their face in this.", ans: "E" },
                     { q: "84. People put this photo of favorite things on a wall.", ans: "F" }
+                ]
+            },
+            {
+                title: "Holiday Items",
+                options: [
+                    { id: "A", text: "A. beach" }, { id: "B", text: "B. bed" },
+                    { id: "C", text: "C. camera" }, { id: "D", text: "D. mountain" },
+                    { id: "E", text: "E. square" }, { id: "F", text: "F. suitcase" },
+                    { id: "G", text: "G. pool" }, { id: "H", text: "H. towel" }
+                ],
+                questions: [
+                    { q: "1. People take photos with this.", ans: "C" },
+                    { q: "2. This is a place where you can climb or walk.", ans: "D" },
+                    { q: "3. In a hotel, people sleep on this at night.", ans: "B" },
+                    { q: "4. You can sit next to the sea here in this place.", ans: "A" },
+                    { q: "5. You carry your scarves, coats or sweaters in this.", ans: "F" }
+                ]
+            },
+            {
+                title: "Travel Gear",
+                options: [
+                    { id: "A", text: "A. bag" }, { id: "B", text: "B. bottle" },
+                    { id: "C", text: "C. camera" }, { id: "D", text: "D. countryside" },
+                    { id: "E", text: "E. helmet" }, { id: "F", text: "F. map" },
+                    { id: "G", text: "G. station" }, { id: "H", text: "H. sweater" }
+                ],
+                questions: [
+                    { q: "1. You put your clothes in it.", ans: "A" },
+                    { q: "2. You take nice photos of new places with it.", ans: "C" },
+                    { q: "3. In this place, you can buy tickets and take the bus.", ans: "G" },
+                    { q: "4. You drink water from this if you are thirsty.", ans: "B" },
+                    { q: "5. You use it when you want to look for towns and rivers.", ans: "F" }
                 ]
             }
         ];
